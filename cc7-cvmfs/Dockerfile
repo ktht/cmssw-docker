@@ -25,10 +25,12 @@ LABEL   org.label-schema.build-date=$BUILD_DATE \
 
 USER root
 
-# install cvmfs repos
+# install cvmfs and EOS repos
 ADD etc-yum-cernvm.repo /etc/yum.repos.d/cernvm.repo
+ADD etc-xrootd.repo     /etc/yum.repos.d/xrootd.repo
+ADD etc-eos.repo        /etc/yum.repos.d/eos.repo
 
-RUN     yum install -y cvmfs cvmfs-config-default fuse && \
+RUN     yum install -y cvmfs cvmfs-config-default fuse eos-client && \
         yum clean -y all
 
 # afs does not work when building on Mac
@@ -61,4 +63,4 @@ RUN     sudo chmod 755 /opt/cms/entrypoint.sh && \
         chmod 755 /home/cmsusr
 
 ENTRYPOINT ["/opt/cms/entrypoint.sh"]
-CMD     ["/bin/zsh"]
+CMD     ["/bin/bash"]
